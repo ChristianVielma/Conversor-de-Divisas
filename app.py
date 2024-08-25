@@ -1,37 +1,65 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 import requests
+import os
+from datetime import datetime
 
 app = Flask(__name__)
 
-API_URL = "https://api.exchangerate-api.com/v4/latest/USD"
+# Configura tu clave API aquí
+API_KEY = 'deffc8e0f02d5e8a05e0d2e6'
+BASE_URL = 'https://v6.exchangerate-api.com/v6/'
 
-def get_exchange_rates():
-    response = requests.get(API_URL)
-    data = response.json()
-    return data['rates']
+def fetch_exchange_rate(from_currency, to_currency):
+    """Obtiene la tasa de cambio de la API."""
+    url = f'{BASE_URL}{API_KEY}/latest/{from_currency}'
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        if 'conversion_rates' in data:
+            return data['conversion_rates'].get(to_currency), data.get('time_last_updated_utc')
+    except requests.RequestException as e:
+        print(f'Error al hacer la solicitud a la API: {e}')
+    return None, None
 
-@app.route('/')
+def format_conversion_result(amount, rate):
+    """Calcula y formatea el resultado de la conversión."""
+    return f"{amount * rate:.2f}"
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    rates = get_exchange_rates()
-    return render_template('index.html', rates=rates)
+    conversion_result = None
+    last_updated = None
+    amount = None
+    from_currency = None
+    to_currency = None
 
-@app.route('/convert', methods=['POST'])
-def convert():
-    amount = float(request.form['amount'])
-    from_currency = request.form['from_currency']
-    to_currency = request.form['to_currency']
-    rates = get_exchange_rates()
-    
-    if from_currency != 'USD':
-        amount /= rates[from_currency]
-    converted_amount = amount * rates[to_currency]
-    
-    return render_template('index.html', rates=rates, converted_amount=converted_amount, from_currency=from_currency, to_currency=to_currency)
+    if request.method == 'POST':
+        from_currency = request.form.get('from_currency')
+        to_currency = request.form.get('to_currency')
+        try:
+            amount = float(request.form.get('amount', 0))
+        except ValueError:
+            return render_template('index.html', error_message='Cantidad inválida', conversion_result=None)
 
-@app.route('/rates')
-def rates():
-    rates = get_exchange_rates()
-    return render_template('rates.html', rates=rates)
+        rate, api_last_updated = fetch_exchange_rate(from_currency, to_currency)
+        if rate:
+            conversion_result = format_conversion_result(amount, rate)
+            if api_last_updated:
+                last_updated = datetime.strptime(api_last_updated, '%Y-%m-%dT%H:%M:%S+00:00').strftime('%d-%m-%Y %H:%M:%S')
+            else:
+                last_updated = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+        else:
+            conversion_result = 'Error al obtener la tasa de cambio'
+
+    return render_template(
+        'index.html',
+        conversion_result=conversion_result,
+        last_updated=last_updated,
+        amount=amount,
+        from_currency=from_currency,
+        to_currency=to_currency
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)
