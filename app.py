@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 import requests
-import os
+#import os
 from datetime import datetime
 
 app = Flask(__name__)
@@ -58,9 +58,22 @@ def index():
         from_currency=from_currency,
         to_currency=to_currency
     )
+# @app.route('/divisas')
+# def divisas():
+#     response = requests.get(url)
+#     data = response.json()
+
+#     if response.status_code == 200 and 'conversion_rates' in data:
+#         rates = data['conversion_rates']
+#         return render_template('divisas.html', rates=rates)
+#     else:
+#         error_message = 'Error al obtener la lista de divisas'
+#         return render_template('divisas.html', error_message=error_message)
+
 @app.route('/divisas')
 def divisas():
-    response = requests.get(f'{BASE_URL}')
+    url = f'{BASE_URL}{API_KEY}/latest/USD'  # Esta variable no se estaba usando aqui
+    response = requests.get(url)
     data = response.json()
 
     if response.status_code == 200 and 'conversion_rates' in data:
