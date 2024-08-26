@@ -35,7 +35,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\franc\Desktop\Fran\Conversor-de-Divisas\.venv"
+VIRTUAL_ENV="C:\Users\My PC\OneDrive\Escritorio\lp2\Conversor-de-Divisas\.venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
