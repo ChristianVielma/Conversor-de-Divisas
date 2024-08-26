@@ -4,8 +4,6 @@ import os
 from datetime import datetime
 
 app = Flask(__name__)
-
-# Configura tu clave API aquí
 API_KEY = 'deffc8e0f02d5e8a05e0d2e6'
 BASE_URL = 'https://v6.exchangerate-api.com/v6/'
 
