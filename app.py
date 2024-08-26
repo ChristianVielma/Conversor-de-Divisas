@@ -60,6 +60,18 @@ def index():
         from_currency=from_currency,
         to_currency=to_currency
     )
+@app.route('/divisas')
+def divisas():
+    response = requests.get(f'{BASE_URL}')
+    data = response.json()
+
+    if response.status_code == 200 and 'conversion_rates' in data:
+        rates = data['conversion_rates']
+        return render_template('divisas.html', rates=rates)
+    else:
+        error_message = 'Error al obtener la lista de divisas'
+        return render_template('divisas.html', error_message=error_message)
 
 if __name__ == '__main__':
     app.run(debug=True)
+

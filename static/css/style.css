@@ -1,0 +1,36 @@
+body {
+    /* Aplica la imagen de fondo al cuerpo del documento */
+    background-image: url("../images/fondo.jpg");
+    background-size: cover; /* Ajusta la imagen al tamaño del contenedor */
+    background-position: center; /* Centra la imagen en el contenedor */
+    background-attachment: fixed; /* Mantiene la imagen fija durante el desplazamiento */
+    color: #fff; /* Cambia el color del texto para que sea visible sobre la imagen de fondo */
+}
+
+.container {
+    margin-top: 20px;
+    /* Opcional: Añade un fondo semi-transparente a la tarjeta para mejorar la legibilidad del texto */
+    background: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.card {
+    max-width: 500px; /* Tamaño máximo de la tarjeta */
+    margin: 0 auto;   /* Centra la tarjeta horizontalmente */
+    background: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente para la tarjeta */
+}
+
+.card-header, .card-body, .card-footer {
+    background: transparent; /* Fondo transparente para las secciones de la tarjeta */
+}
+
+/* Estilo para el color de todas las etiquetas en el formulario */
+form .form-group label {
+    color: #000; /* Color negro */
+}
+
+/* Estilo para el color del texto del resultado */
+.result {
+    color: #eb6a00; /* Color negro para el texto del resultado */
+}
