@@ -56,7 +56,7 @@
                     <button type="submit" class="btn btn-success btn-block">Convertir</button>
                 </form>
 
-                {% if conversion_result is not none %}
+                {% if conversion_result is not None %}
                 <div class="mt-4 result">
                     <h2 class="text-center">Resultado</h2>
                     <p class="text-center">{{ amount }} {{ from_currency }} equivale a {{ conversion_result }} {{ to_currency }}</p>
