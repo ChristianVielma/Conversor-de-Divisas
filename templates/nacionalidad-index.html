@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ciudades</title>
+    <title>Personas</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 </head>
 <body>
 
     <div class="container mt-4">
-        <h3>Listar Ciudades</h3>
+        <h3>Lista Nacionalidades</h3>
 
         <!-- Boton agregar -->
         <div class="row mb-2">
           <div class="col col-md-4">
-            <a href="{{ url_for('ciudades') }}" class="btn btn-primary">Agregar</a>
+            <a href="{{ url_for('nacionalidad') }}" class="btn btn-primary">Agregar</a>
           </div>
         </div>
         <!--  -->
 
         <!-- Tabla -->
         <div class="row">
-            <!-- columna de la mascota -->
+            <!-- columna de la nacionalidad -->
             <div class="col col-md-12">
 
                 <table class="table table-striped">
@@ -32,16 +32,16 @@
                       </tr>
                     </thead>
                     <tbody>
-                      {% for item in lista_ciudades %}
+                      {% for item in lista_nacionalidades %}
                       <tr>
                         <td>{{ item['descripcion'] }}</td>
                         <td>
                           <div class="row">
                             <div class="col col-md-2">
-                              <a href="{{ url_for('ciudadesEditar', id=item['id']) }}" class="btn btn-primary">Editar</a>
+                              <a href="{{ url_for('nacionalidadEditar', id=item['id']) }}" class="btn btn-primary">Editar</a>
                             </div>
                             <div class="col col-md-2">
-                              <a href="{{ url_for('ciudadesEliminar', id=item['id']) }}" class="btn btn-danger">Eliminar</a>
+                              <a href="{{ url_for('nacionalidadEliminar', id=item['id']) }}" class="btn btn-danger">Eliminar</a>
                             </div>
                           </div>
                         </td>

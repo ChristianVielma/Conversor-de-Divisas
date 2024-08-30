@@ -1,85 +1,67 @@
 from flask import Flask, render_template, request, redirect, url_for,flash
-from dao.CiudadDao import CiudadDao
+from dao.NacionalidadesDao import NacionalidadesDao
 
 app = Flask(__name__)
 
 # flash requiere esta sentencia
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
-@app.route('/inicio')
-def inicio():
-    return "hola mundo desde el backend"
+@app.route('/nacionalidad-index')
+def nacionalidad_index():
+    # Creacion de la instancia de Nacionalidaddao
+    nacionalidadDao = NacionalidadesDao()
+    lista_nacionalidades = nacionalidadDao.getNacionalidad()
+    return render_template('nacionalidad-index.html', lista_nacionalidades=lista_nacionalidades)
 
-# endpoint o ruta
-@app.route('/contacto')
-def contacto():
-    return "<h3>Introduciendo HTML desde el servidor</h3>"
+@app.route('/nacionalidad')
+def nacionalidad():
+    return render_template('nacionalidad.html')
 
-@app.route('/contacto2')
-def contacto2():
-    return render_template('contacto.html')
-
-@app.route('/ciudades-index')
-def ciudades_index():
-    # Creacion de la instancia de ciudaddao
-    ciudadDao = CiudadDao()
-    lista_ciudades = ciudadDao.getCiudades()
-    return render_template('ciudades-index.html', lista_ciudades=lista_ciudades)
-
-@app.route('/ciudades')
-def ciudades():
-    return render_template('ciudades.html')
-
-@app.route('/guardar-ciudad', methods=['POST'])
-def guardarCiudad():
-    ciudad = request.form.get('txtDescripcion').strip()
-    if ciudad == None or len(ciudad) < 1:
+@app.route('/guardar-nacionalidad', methods=['POST'])
+def guardarNacionalidad():
+    nacionalidad = request.form.get('txtNacionalidad').strip()
+    if nacionalidad == None or len(nacionalidad) < 1:
         # mostrar un mensaje al usuario
         flash('Debe escribir algo en la descripcion', 'warning')
 
-        # redireccionar a la vista ciudades
-        return redirect(url_for('ciudades'))
+        # redireccionar a la vista nacionalidad
+        return redirect(url_for('nacionalidad'))
 
-    ciudaddao = CiudadDao()
-    ciudaddao.guardarCiudad(ciudad.upper())
+    nacionalidaddao = NacionalidadesDao()
+    nacionalidaddao.guardarNacionalidad(nacionalidad.upper())
 
     # mostrar un mensaje al usuario
-    flash('Guardado exitoso', 'success')
+    flash('Guardado exitoso', 'success') 
 
-    # redireccionar a la vista ciudades
-    return redirect(url_for('ciudades_index'))
+    # redireccionar a la vista nacionalidad
+    return redirect(url_for('nacionalidad_index'))
 
-@app.route('/ciudades-editar/<id>')
-def ciudadesEditar(id):
-    ciudaddao = CiudadDao()
-    return render_template('ciudades-editar.html', ciudad=ciudaddao.getCiudadById(id))
+@app.route('/nacionalidad-editar/<id>')
+def nacionalidadEditar(id):
+    nacionalidaddao = NacionalidadesDao() #.getNacionalidad
+    nacionalidad = nacionalidaddao.getNacionalidadById(id)
+    return render_template('nacionalidad-editar.html', nacionalidad=nacionalidad)
 
-@app.route('/actualizar-ciudad', methods=['POST'])
-def actualizarCiudad():
-    id = request.form.get('txtIdCiudad')
+@app.route('/actualizar-Nacionalidad', methods=['POST'])
+def actualizarNacionalidad():
+    id = request.form.get('txtId')
     descripcion = request.form.get('txtDescripcion').strip()
 
     if descripcion == None or len(descripcion) == 0:
         flash('No debe estar vacia la descripcion')
-        return redirect(url_for('ciudadesEditar', id=id))
+        return redirect(url_for('nacionalidadEditar', id=id))
 
     # actualizar
-    ciudaddao = CiudadDao()
-    ciudaddao.updateCiudad(id, descripcion.upper())
+    Nacionalidaddao = NacionalidadesDao()
+    Nacionalidaddao.updateNacionalidad(id, descripcion.upper())
 
-    return redirect(url_for('ciudades_index'))
+    return redirect(url_for('nacionalidad_index'))
 
-@app.route('/guardar-mascota', methods=['POST'])
-def guardarMascota():
-    print(request.form)
-    nombreMascota = request.form.get('txtNombreMascota')
-    return f"Ya llego tu mascota <strong>{nombreMascota}</strong> al servidor"
-
-@app.route('/ciudades-eliminar/<id>')
-def ciudadesEliminar(id):
-    ciudaddao = CiudadDao()
-    ciudaddao.deleteCiudad(id)
-    return redirect(url_for('ciudades_index'))
+@app.route('/Nacionalidad-eliminar/<id>')
+def nacionalidadEliminar(id):
+    Nacionalidad = NacionalidadesDao()
+    Nacionalidad.deleteNacionalidad(id)
+    return redirect(url_for('nacionalidad_index'))
 
 # se pregunta por el proceso principal
 if __name__=='__main__':

@@ -3,39 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Holis</title>
+    <title>Nacionalidades</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 </head>
 <body>
 
     <div class="container mt-4">
-        <h3>Registro de Mascota</h3>
+        <h3>Registro de Nacionalidades</h3>
 
         <div class="row">
-            <!-- columna de la mascota -->
+            <!-- columna de la nacionalidad -->
             <div class="col col-md-6">
 
                 <!-- Formulario -->
-                <form action="{{ url_for('guardarMascota') }}" method="post">
+                <form action="{{ url_for('guardarNacionalidad') }}" method="post">
                     <div class="card">
-                        <div class="card-header bg-primary text-white">Información de la mascota</div>
+                        <div class="card-header bg-primary text-white">Información del registro</div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="txtNombreMascota">Nombre de la mascota:</label>
-                                <input type="text" class="form-control" placeholder="Escriba el nombre de sus mascota" name="txtNombreMascota" id="txtNombreMascota">
+                                <label for="txtPersona">Descripción:</label>
+                                <input type="text" class="form-control" placeholder="Ingrese alguna nacionalidad" name="txtNacionalidad" id="txtNacionalidad">
                             </div>
-                            <div class="form-group">
-                                <label for="txtTipoMascota">Tipo de Mascota:</label>
-                                <input type="text" class="form-control" placeholder="perro, gato doméstico, conejo doméstico, Hámster, etc" name="txtTipoMascota" id="txtTipoMascota">
-                            </div>
-                            <div class="form-group">
-                                <label for="txtRaza">Raza:</label>
-                                <input type="text" class="form-control" placeholder="Doberman, Caniche, San Bernardo, etc" name="txtRaza" id="txtRaza">
-                            </div>
-                            <div class="form-group">
-                                <label for="txtEdad">Edad:</label>
-                                <input type="number" class="form-control" placeholder="Edad de su mascota" name="txtEdad" id="txtEdad">
-                            </div>
+
+                            {# Esta bloque busca el mensaje de error #}
+                            {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    <strong>Mensaje al usuario!</strong> {{ message }}
+                                </div>
+                                {% endfor %}
+                            {% endif %}
+                            {% endwith %}
+
                         </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary" name="btnGuardar" id="btnGuardar">Guardar</button>

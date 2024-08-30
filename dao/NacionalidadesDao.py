@@ -2,25 +2,25 @@
 from flask import current_app as app
 from conexion.Conexion import Conexion
 
-class CiudadDao:
+class NacionalidadesDao:
 
-    def getCiudades(self):
+    def getNacionalidad(self):
 
-        ciudadSQL = """
+        nacionalidadSQL = """
         SELECT id, descripcion
-        FROM ciudades
+        FROM nacionalidades
         """
         # objeto conexion
         conexion = Conexion()
         con = conexion.getConexion()
         cur = con.cursor()
         try:
-            cur.execute(ciudadSQL)
+            cur.execute(nacionalidadSQL)
             # trae datos de la bd
-            lista_ciudades = cur.fetchall()
+            lista_nacionalidad = cur.fetchall()
             # retorno los datos
             lista_ordenada = []
-            for item in lista_ciudades:
+            for item in lista_nacionalidad:
                 lista_ordenada.append({
                     "id": item[0],
                     "descripcion": item[1]
@@ -32,24 +32,24 @@ class CiudadDao:
             cur.close()
             con.close()
 
-    def getCiudadById(self, id):
+    def getNacionalidadById(self, id):
 
-        ciudadSQL = """
+        personaSQL = """
         SELECT id, descripcion
-        FROM ciudades WHERE id=%s
+        FROM nacionalidades WHERE id=%s
         """
         # objeto conexion
         conexion = Conexion()
         con = conexion.getConexion()
         cur = con.cursor()
         try:
-            cur.execute(ciudadSQL, (id,))
+            cur.execute(personaSQL, (id,))
             # trae datos de la bd
-            ciudadEncontrada = cur.fetchone()
+            nacionalidadesEncontrada = cur.fetchone()
             # retorno los datos
             return {
-                    "id": ciudadEncontrada[0],
-                    "descripcion": ciudadEncontrada[1]
+                    "id": nacionalidadesEncontrada[0],
+                    "descripcion": nacionalidadesEncontrada[1]
                 }
         except con.Error as e:
             app.logger.info(e)
@@ -57,10 +57,10 @@ class CiudadDao:
             cur.close()
             con.close()
 
-    def guardarCiudad(self, descripcion):
+    def guardarNacionalidad(self, descripcion):
 
-        insertCiudadSQL = """
-        INSERT INTO ciudades(descripcion) VALUES(%s)
+        insertNacionalidadSQL = """
+        INSERT INTO nacionalidades(descripcion) VALUES(%s)
         """
 
         conexion = Conexion()
@@ -69,7 +69,7 @@ class CiudadDao:
 
         # Ejecucion exitosa
         try:
-            cur.execute(insertCiudadSQL, (descripcion,))
+            cur.execute(insertNacionalidadSQL, (descripcion,))
             # se confirma la insercion
             con.commit()
 
@@ -86,10 +86,10 @@ class CiudadDao:
 
         return False
 
-    def updateCiudad(self, id, descripcion):
+    def updateNacionalidad(self, id, descripcion):
 
-        updateCiudadSQL = """
-        UPDATE ciudades
+        updateNacionalidadSQL = """
+        UPDATE nacionalidades
         SET descripcion=%s
         WHERE id=%s
         """
@@ -100,7 +100,7 @@ class CiudadDao:
 
         # Ejecucion exitosa
         try:
-            cur.execute(updateCiudadSQL, (descripcion, id,))
+            cur.execute(updateNacionalidadSQL, (descripcion, id,))
             # se confirma la insercion
             con.commit()
 
@@ -117,10 +117,10 @@ class CiudadDao:
 
         return False
 
-    def deleteCiudad(self, id):
+    def deleteNacionalidad(self, id):
 
-        updateCiudadSQL = """
-        DELETE FROM ciudades
+        updateNacionalidadSQL = """
+        DELETE FROM nacionalidades
         WHERE id=%s
         """
 
@@ -130,7 +130,7 @@ class CiudadDao:
 
         # Ejecucion exitosa
         try:
-            cur.execute(updateCiudadSQL, (id,))
+            cur.execute(updateNacionalidadSQL, (id,))
             # se confirma la insercion
             con.commit()
 

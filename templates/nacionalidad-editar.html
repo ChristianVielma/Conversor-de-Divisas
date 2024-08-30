@@ -3,26 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ciudades</title>
+    <title>Nacionalidades</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 </head>
 <body>
 
     <div class="container mt-4">
-        <h3>Registro de Ciudades</h3>
+        <h3>Editar Nacionalidad</h3>
 
         <div class="row">
-            <!-- columna de la mascota -->
+            <!-- columna de la nacionalidad -->
             <div class="col col-md-6">
 
                 <!-- Formulario -->
-                <form action="{{ url_for('guardarCiudad') }}" method="post">
+                <form action="{{ url_for('actualizarNacionalidad') }}" method="post">
                     <div class="card">
                         <div class="card-header bg-primary text-white">Información del registro</div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="txtDescripcion">Descripción:</label>
-                                <input type="text" class="form-control" placeholder="Ingrese alguna ciudad" name="txtDescripcion" id="txtDescripcion">
+                                <input type="hidden" name="txtId" value="{{ nacionalidad['id'] }}">
+                                <label for="txtDescripcion">Nacionalidades:</label>
+                                <input type="text" class="form-control" placeholder="Ingrese alguna nacionalidad" name="txtDescripcion" id="txtDescripcion" value="{{ nacionalidad['descripcion'] }}">
                             </div>
 
                             {# Esta bloque busca el mensaje de error #}
@@ -38,7 +39,7 @@
 
                         </div>
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary" name="btnGuardar" id="btnGuardar">Guardar</button>
+                            <button type="submit" class="btn btn-warning" name="btnGuardar" id="btnGuardar">Actualizar</button>
                         </div>
                     </div>
                 </form>
